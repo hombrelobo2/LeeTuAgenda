@@ -44,3 +44,9 @@ App Android que cada día, a la hora que elijas, abre tu agenda **a pantalla com
 La clave de firma **no está en el repositorio**. GitHub Actions la lee de los *secrets* del repositorio
 (`SIGNING_KEYSTORE_BASE64`, `SIGNING_STORE_PASSWORD`, `SIGNING_KEY_ALIAS`, `SIGNING_KEY_PASSWORD`).
 Compilado en local o en F-Droid, `assembleRelease` genera un APK sin firmar (F-Droid lo firma con su propia clave).
+
+## Licencia
+
+Lee tu agenda es software libre: puedes redistribuirlo y/o modificarlo bajo los términos de la
+[Licencia Pública General GNU versión 3](LICENSE) (GPL-3.0) publicada por la Free Software Foundation.
+Se distribuye con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.

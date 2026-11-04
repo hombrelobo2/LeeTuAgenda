@@ -306,7 +306,7 @@ class MainActivity : Activity() {
             setPadding(0, dp(2), 0, dp(6))
         })
         about.addView(TextView(this).apply {
-            text = "Software libre: sin anuncios, sin internet y sin recoger datos. Tu agenda no sale del móvil."
+            text = "Software libre (licencia GPL-3.0): sin anuncios, sin internet y sin recoger datos. Tu agenda no sale del móvil."
             textSize = 14f
             setTextColor(textSoft)
         })
