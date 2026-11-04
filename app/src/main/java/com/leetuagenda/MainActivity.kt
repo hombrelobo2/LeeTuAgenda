@@ -273,7 +273,7 @@ class MainActivity : Activity() {
             Scheduler.scheduleTest(this, 15)
             Toast.makeText(this, "Bloquea el móvil y espera 15 segundos", Toast.LENGTH_LONG).show()
         }, fullWidth().apply { topMargin = dp(10) })
-        test.addView(button("Reiniciar el día de hoy (volver a pedirla)") {
+        test.addView(button("Reiniciar el día de hoy") {
             getSharedPreferences("cfg", MODE_PRIVATE).edit()
                 .remove("doneDate").remove("checked_" + prefs.todayKey()).apply()
             render()
