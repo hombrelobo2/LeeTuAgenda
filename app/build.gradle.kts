@@ -13,6 +13,10 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "COMMIT", "\"" + (System.getenv("GITHUB_SHA")?.take(7) ?: "local") + "\"")
+    }
+    buildFeatures {
+        buildConfig = true
     }
 
     // Firma fija: así cada APK nuevo se instala encima del anterior sin desinstalar.

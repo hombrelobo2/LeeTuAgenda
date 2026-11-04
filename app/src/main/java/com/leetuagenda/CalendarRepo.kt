@@ -33,6 +33,7 @@ data class CalendarInfo(
     val visible: Boolean,
     val synced: Boolean,
     val color: Int,
+    val accountType: String = "",
 )
 
 /** Lee los eventos de HOY de los calendarios del móvil (Google, Samsung, Outlook…). */
@@ -51,6 +52,7 @@ object CalendarRepo {
             CalendarContract.Calendars.VISIBLE,
             CalendarContract.Calendars.SYNC_EVENTS,
             CalendarContract.Calendars.CALENDAR_COLOR,
+            CalendarContract.Calendars.ACCOUNT_TYPE,
         )
         ctx.contentResolver.query(CalendarContract.Calendars.CONTENT_URI, proj, null, null, null)?.use { c ->
             while (c.moveToNext()) {
@@ -62,11 +64,31 @@ object CalendarRepo {
                         visible = c.getInt(3) == 1,
                         synced = c.getInt(4) == 1,
                         color = if (c.isNull(5)) 0xFF3949AB.toInt() else c.getInt(5),
+                        accountType = c.getString(6) ?: "",
                     )
                 )
             }
         }
         return out.sortedWith(compareBy({ it.account }, { it.name }))
+    }
+
+
+    /** ¿Tiene Android activada la sincronización de calendario para la cuenta de este calendario? */
+    fun accountSyncOn(c: CalendarInfo): Boolean? = try {
+        if (c.accountType.isEmpty() || c.accountType == CalendarContract.ACCOUNT_TYPE_LOCAL) null
+        else android.content.ContentResolver.getSyncAutomatically(
+            android.accounts.Account(c.account, c.accountType), CalendarContract.AUTHORITY
+        ) && android.content.ContentResolver.getMasterSyncAutomatically()
+    } catch (e: Exception) { null }
+
+    /** Número de eventos guardados en el móvil para cada calendario (cualquier fecha). */
+    fun eventCounts(ctx: Context): Map<Long, Int> {
+        val out = HashMap<Long, Int>()
+        ctx.contentResolver.query(
+            CalendarContract.Events.CONTENT_URI, arrayOf(CalendarContract.Events.CALENDAR_ID),
+            "${CalendarContract.Events.DELETED} = 0", null, null
+        )?.use { c -> while (c.moveToNext()) out.merge(c.getLong(0), 1, Int::plus) }
+        return out
     }
 
     /** Calendarios que se incluyen: los elegidos por el usuario, o por defecto todos menos festivos.
@@ -261,12 +283,17 @@ object CalendarRepo {
         val fmt = DateTimeFormatter.ofPattern("dd/MM HH:mm").withZone(ZoneId.systemDefault())
         val fmtUtc = DateTimeFormatter.ofPattern("dd/MM HH:mm'Z'").withZone(ZoneOffset.UTC)
 
+        val version = try { ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName } catch (e: Exception) { "?" }
+        sb.append("Versión $version (${BuildConfig.COMMIT})\n\n")
+        val counts = eventCounts(ctx)
         sb.append("CALENDARIOS\n")
         calendars(ctx).forEach {
             sb.append(if (it.id in included) "✓ " else "✗ ")
             sb.append("${it.name}  [${it.account}]")
             if (!it.visible) sb.append("  (oculto)")
             if (!it.synced) sb.append("  (sin sincronizar)")
+            sb.append("  · ${counts[it.id] ?: 0} eventos en el móvil")
+            if (accountSyncOn(it) == false) sb.append("  ⚠ SINCRONIZACIÓN DE LA CUENTA DESACTIVADA EN ANDROID")
             sb.append("\n")
         }
         sb.append("\nEVENTOS (ayer–mañana)\n")
