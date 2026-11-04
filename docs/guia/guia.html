@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Lee tu agenda · Guía de instalación y uso</title>
+<style>
+  
+  :root { --ink:#1B1D29; --soft:#555B70; --indigo:#3949AB; --amber:#E0A21B; --green:#2E9E6A; --line:#DADDE8; --tint:#F2F3F9; }
+  * { box-sizing: border-box; }
+  body { font-family: "Inter", "DejaVu Sans", sans-serif; font-size: 11pt; line-height: 1.5; color: var(--ink); margin: 0; }
+  h1 { font-size: 26pt; line-height: 1.15; margin: 0 0 6pt; color: var(--indigo); letter-spacing: -0.01em; }
+  h2 { font-size: 15pt; margin: 22pt 0 8pt; color: var(--indigo); break-after: avoid; }
+  h2 .n { display:inline-block; width: 22pt; height: 22pt; border-radius: 50%; background: var(--indigo); color: white;
+          text-align:center; line-height: 22pt; font-size: 11pt; margin-right: 6pt; vertical-align: 2pt; }
+  h3 { font-size: 12pt; margin: 14pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 7pt; }
+  .lead { font-size: 12.5pt; color: var(--soft); margin-bottom: 14pt; }
+  ol.steps { padding-left: 0; list-style: none; counter-reset: s; margin: 6pt 0 10pt; }
+  ol.steps > li { counter-increment: s; position: relative; padding-left: 30pt; margin-bottom: 8pt; break-inside: avoid; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 20pt; height: 20pt; border-radius: 50%;
+    border: 1.5pt solid var(--indigo); color: var(--indigo); font-weight: 700; text-align: center; line-height: 17pt; font-size: 10pt; }
+  ul { margin: 4pt 0 8pt; padding-left: 16pt; }
+  li { margin-bottom: 3pt; }
+  .btn { display: inline-block; border: 1pt solid var(--indigo); color: var(--indigo); border-radius: 10pt; padding: 0 6pt; font-weight: 600; white-space: nowrap; }
+  .btn.solid { background: var(--indigo); color: white; }
+  b, strong { font-weight: 700; }
+  .box { border-radius: 8pt; padding: 9pt 12pt; margin: 10pt 0; break-inside: avoid; }
+  .tip { background: #EAF6EF; border-left: 4pt solid var(--green); }
+  .warn { background: #FDF3E1; border-left: 4pt solid var(--amber); }
+  .info { background: var(--tint); border-left: 4pt solid var(--indigo); }
+  .box p:last-child, .box ul:last-child { margin-bottom: 0; }
+  .box .t { font-weight: 700; display: block; margin-bottom: 2pt; }
+  .cover { display: flex; gap: 18pt; align-items: center; margin: 4pt 0 16pt; padding: 14pt; background: var(--tint); border-radius: 10pt; }
+  .qr { width: 120pt; height: 120pt; background: white; padding: 6pt; border-radius: 6pt; flex: none; }
+  .qr svg { width: 100%; height: 100%; }
+  .url { font-family: "DejaVu Sans Mono", monospace; font-size: 8.5pt; word-break: break-all; color: var(--soft); }
+  table { width: 100%; border-collapse: collapse; margin: 6pt 0 10pt; font-size: 10.5pt; }
+  td, th { border-bottom: 1px solid var(--line); padding: 6pt 6pt; vertical-align: top; text-align: left; }
+  th { color: var(--soft); font-weight: 600; font-size: 9.5pt; text-transform: uppercase; letter-spacing: .04em; }
+  td:first-child { font-weight: 600; width: 34%; }
+  .two { display: flex; gap: 16pt; align-items: flex-start; break-inside: avoid; }
+  .two > .txt { flex: 1; }
+  /* Maqueta del móvil */
+  .phone { width: 150pt; flex: none; border-radius: 16pt; border: 4pt solid #2A2D3A; background: #14161F; color: #F3F4F8; padding: 10pt 8pt 8pt; font-size: 7pt; line-height: 1.3; }
+  .phone .k { color: #FFC857; font-weight: 700; font-size: 6pt; letter-spacing: .06em; }
+  .phone .h { font-size: 10pt; font-weight: 600; margin: 2pt 0 3pt; }
+  .phone .pr { color:#A6AABB; font-size: 6.5pt; }
+  .phone .bar { height: 3pt; background: #2C3042; border-radius: 2pt; margin: 3pt 0 6pt; }
+  .phone .bar i { display:block; height: 100%; width: 33%; background: #4CC38A; border-radius: 2pt; }
+  .card { background: #1F2230; border: 1px solid #2C3042; border-left: 4pt solid #5B8DEF; border-radius: 6pt; padding: 5pt 6pt; margin-bottom: 4pt; position: relative; }
+  .card.done { background: #17311F; border-color: #4CC38A; border-left-color: #4CC38A; }
+  .card .tm { color: #FFC857; font-weight: 700; font-size: 6.5pt; }
+  .card.done .tm { color: #4CC38A; }
+  .card .ti { font-size: 8.5pt; font-weight: 600; margin-top: 1pt; padding-right: 14pt; }
+  .card .ck { position: absolute; right: 6pt; top: 50%; margin-top: -6pt; width: 12pt; height: 12pt; border-radius: 50%; border: 1pt solid #A6AABB; }
+  .card.done .ck { background: #4CC38A; border-color: #4CC38A; }
+  .card.done .ck::after { content: "✓"; color: #14161F; font-weight: 700; font-size: 8pt; position: absolute; left: 2.3pt; top: -0.5pt; }
+  .new { background: #FFC857; color: #14161F; font-size: 5.5pt; font-weight: 700; border-radius: 3pt; padding: 0 3pt; margin-left: 3pt; }
+  .pb { display: flex; gap: 4pt; margin-top: 6pt; }
+  .pb span { flex: 1; text-align: center; border-radius: 8pt; padding: 4pt 0; font-weight: 700; font-size: 7pt; }
+  .pb .c { background: #2C3042; flex: .8; }
+  .pb .d { background: #262938; color: #A6AABB; flex: 1.4; }
+  .lbl { font-size: 8.5pt; color: var(--soft); text-align: center; margin-top: 4pt; }
+  .page-break { break-before: page; }
+  .foot { margin-top: 18pt; padding-top: 10pt; border-top: 1px solid var(--line); font-size: 9.5pt; color: var(--soft); }
+</style>
+</head>
+<body>
+
+<h1>Lee tu agenda</h1>
+<p class="lead">Guía de instalación y uso, paso a paso.<br>Una app para que la agenda del día no se te pase sin leerla.</p>
+
+<h2>¿Para qué sirve?</h2>
+<p>A muchas personas con TDAH les pasa: miran la agenda tantas veces que el ojo «resbala» por encima y ya no la leen de verdad. Las citas están apuntadas, pero se olvidan igual.</p>
+<p><strong>Lee tu agenda</strong> te ayuda así:</p>
+<ul>
+  <li>Cada día, a la hora que tú elijas, <strong>aparece sola en la pantalla</strong> con todo lo que tienes ese día.</li>
+  <li>Tienes que <strong>tocar cada cita, una por una</strong>, para marcarla como leída. Si vas demasiado deprisa, no cuenta.</li>
+  <li>Las citas que son nuevas llevan una etiqueta amarilla <strong>NUEVO</strong> para que destaquen.</li>
+  <li>Si la cierras sin terminar, <strong>vuelve a aparecer</strong> al cabo de un rato.</li>
+  <li><strong>No bloquea el móvil:</strong> puedes llamar, contestar llamadas y las alarmas suenan con normalidad.</li>
+</ul>
+<p>La app lee las citas del calendario que ya usas en el móvil (por ejemplo, Google Calendar). No hay que apuntar nada en ella.</p>
+
+<div class="box info">
+  <span class="t">Antes de empezar necesitas</span>
+  <ul>
+    <li>Un móvil <strong>Android</strong> (no sirve para iPhone).</li>
+    <li>Tener tus citas en el calendario del móvil.</li>
+    <li>Conexión a internet solo para descargarla.</li>
+    <li>Unos <strong>15 minutos</strong> con calma. Si puedes, pide ayuda a alguien la primera vez.</li>
+  </ul>
+</div>
+
+<h2><span class="n">1</span>Descargar la app</h2>
+<div class="cover">
+  <div class="qr">__QR__</div>
+  <div>
+    <p><strong>La forma más fácil:</strong> abre la cámara del móvil y apunta a este código cuadrado. Aparecerá un enlace: tócalo.</p>
+    <p style="margin-bottom:3pt">Si no funciona, escribe esta dirección en el navegador del móvil (Chrome):</p>
+    <div class="url">https://github.com/hombrelobo2/LeeTuAgenda/releases/download/ultima-version/LeeTuAgenda.apk</div>
+  </div>
+</div>
+<ol class="steps">
+  <li>Se descargará un archivo llamado <strong>LeeTuAgenda.apk</strong>. Puede que el móvil pregunte si quieres descargarlo: toca <span class="btn">Descargar</span>.</li>
+  <li>Algunos móviles avisan de que «el archivo puede ser dañino». Es normal con las apps que no vienen de la tienda Play Store. Toca <span class="btn">Descargar de todos modos</span>.</li>
+</ol>
+<div class="box tip"><span class="t">¿Es segura?</span>
+Sí. Es software libre: el código está publicado para que cualquiera lo revise. No tiene anuncios, no se conecta a internet y no envía tus datos a ningún sitio. No está en Play Store porque es un proyecto voluntario.</div>
+
+<h2><span class="n">2</span>Instalar la app</h2>
+<ol class="steps">
+  <li>Cuando termine la descarga, toca el aviso <strong>LeeTuAgenda.apk</strong> que aparece abajo o en la parte de arriba de la pantalla. Si ya no lo ves, abre la app <strong>Archivos</strong> (o «Mis archivos»), entra en <strong>Descargas</strong> y toca el archivo.</li>
+  <li>La primera vez, el móvil dirá que no puede instalar apps «de origen desconocido». Toca <span class="btn">Ajustes</span>, activa el interruptor <strong>Permitir de esta fuente</strong> y vuelve atrás con la flecha.</li>
+  <li>Toca <span class="btn">Instalar</span>.</li>
+  <li>Si aparece un aviso de <strong>Play Protect</strong> diciendo que la app es desconocida, toca <strong>Más detalles</strong> y después <span class="btn">Instalar de todos modos</span>.</li>
+  <li>Cuando ponga «Aplicación instalada», toca <span class="btn">Abrir</span>.</li>
+</ol>
+<p>A partir de ahora encontrarás la app entre las demás con este nombre: <strong>Lee tu agenda</strong> (icono azul con una hoja y una marca ✓).</p>
+
+<h2 class="page-break"><span class="n">3</span>Dar los permisos</h2>
+<p>Al abrir la app verás una lista de permisos. Son necesarios para que la app pueda ver tus citas y aparecer en la pantalla. Junto a cada uno que falte hay un botón <span class="btn">Conceder</span>. Ve uno por uno, de arriba a abajo. Cuando un permiso está listo, aparece en verde con un ✓.</p>
+
+<table>
+  <tr><th>Permiso</th><th>Qué hacer al tocar «Conceder»</th></tr>
+  <tr><td>Leer el calendario</td><td>Saldrá una ventana. Toca <span class="btn">Permitir</span>. Después puede salir otra para las notificaciones: toca también <span class="btn">Permitir</span>.</td></tr>
+  <tr><td>Notificaciones</td><td>Normalmente ya queda listo con el paso anterior. Si no, se abren los ajustes: activa el interruptor de notificaciones y vuelve atrás.</td></tr>
+  <tr><td>Pantalla completa</td><td>Se abre una pantalla de ajustes. Activa el interruptor junto a <strong>Lee tu agenda</strong> y vuelve atrás con la flecha.</td></tr>
+  <tr><td>Alarmas exactas</td><td>Igual: activa el interruptor y vuelve atrás.</td></tr>
+  <tr><td>Mostrar sobre otras apps <em>(recomendado)</em></td><td>Activa el interruptor y vuelve atrás. Si sale un aviso de «ajuste restringido», mira el recuadro de abajo.</td></tr>
+  <tr><td>Sin restricción de batería <em>(recomendado)</em></td><td>Saldrá una pregunta. Toca <span class="btn">Permitir</span>. Así el móvil no «duerme» la app y el aviso llega a su hora.</td></tr>
+</table>
+
+<div class="box warn">
+  <span class="t">Si aparece «Se ha denegado el acceso» o «Ajuste restringido»</span>
+  <p>Android protege algunos permisos en las apps que no vienen de Play Store. Se desbloquea una sola vez:</p>
+  <ol class="steps" style="margin-bottom:0">
+    <li>Cierra el aviso.</li>
+    <li>Abre los <strong>Ajustes</strong> del móvil → <strong>Aplicaciones</strong> (en algunos móviles, después «Gestión de aplicaciones») → <strong>Lee tu agenda</strong>.</li>
+    <li>Toca los <strong>tres puntos ⋮</strong> de arriba a la derecha y elige <strong>Permitir ajustes restringidos</strong>. Pon tu PIN o tu huella.</li>
+    <li>Vuelve a la app y toca otra vez <span class="btn">Conceder</span>.</li>
+  </ol>
+</div>
+<div class="box info">Si no consigues el permiso «Mostrar sobre otras apps», la app funciona igual. La única diferencia: si estás usando el móvil justo a la hora del aviso, verás una notificación en lugar de la pantalla completa. Tócala y se abre la agenda.</div>
+
+<h2><span class="n">4</span>Elegir la hora del aviso</h2>
+<p>Baja un poco en la app hasta la parte <strong>«2 · Cuándo»</strong>.</p>
+<ol class="steps">
+  <li>Activa el interruptor <strong>Activar el aviso diario</strong>.</li>
+  <li>Toca <strong>Hora del aviso</strong> y elige a qué hora quieres que aparezca tu agenda. Por ejemplo, cuando acabas de desayunar. Toca <span class="btn">Aceptar</span>.</li>
+  <li><strong>Si no la terminas, volver a abrirla:</strong> cada vez que lo tocas cambia entre 5, 10, 15, 30 o 60 minutos, o «No insistir». Recomendamos 15 minutos.</li>
+  <li><strong>Dejar de insistir a partir de:</strong> la hora a la que la app deja de molestarte ese día (por ejemplo, las 22:00).</li>
+  <li><strong>No avisar los días sin eventos:</strong> si está activado, los días que no tengas nada apuntado no aparecerá.</li>
+</ol>
+
+<h2><span class="n">5</span>Elegir qué calendarios leer</h2>
+<p>En la parte <strong>«3 · Calendarios»</strong> aparece la lista de calendarios del móvil. Los que tienen la casilla marcada son los que la app leerá. Por defecto están todos, menos los de días festivos.</p>
+<p>Desmarca los que no quieras ver, por ejemplo el calendario de cumpleaños o el de otra persona de la familia.</p>
+
+<h2><span class="n">6</span>Probar que funciona</h2>
+<p>En la parte <strong>«4 · Probar»</strong>:</p>
+<ul>
+  <li><span class="btn solid">Abrir la agenda ahora</span> muestra la pantalla de la agenda para que la veas.</li>
+  <li><span class="btn">Simular el aviso dentro de 15 s</span>: tócalo, <strong>bloquea el móvil</strong> con el botón de encendido y espera. A los 15 segundos la agenda debe encenderse sola en la pantalla. Si es así, ¡todo está bien configurado!</li>
+  <li><span class="btn">Reiniciar el día de hoy</span> vuelve a dejar la agenda de hoy como «sin leer», por si quieres repetir la prueba.</li>
+</ul>
+
+<h2 class="page-break"><span class="n">7</span>El uso de cada día</h2>
+<div class="two">
+  <div class="txt">
+    <p>A la hora que elegiste, la agenda aparecerá sola, aunque el móvil esté bloqueado. Sonará y vibrará como una notificación.</p>
+    <ol class="steps">
+      <li><strong>Lee la primera cita con calma:</strong> la hora, qué es y dónde.</li>
+      <li><strong>Tócala.</strong> Se pondrá verde con un ✓.</li>
+      <li>Haz lo mismo con todas las demás.</li>
+      <li>Cuando todas estén en verde, el botón de abajo cambia a <span class="btn" style="border-color:var(--green);color:var(--green)">✓ Hecho</span>. Tócalo y la agenda se cierra hasta mañana.</li>
+    </ol>
+  </div>
+  <div>
+    <div class="phone">
+      <div class="k">HOY · MIÉRCOLES 4 DE NOVIEMBRE</div>
+      <div class="h">Lee cada entrada y tócala</div>
+      <div class="pr">1 de 3 leídas</div>
+      <div class="bar"><i></i></div>
+      <div class="card done"><div class="tm">1. 10:00 – 10:30</div><div class="ti">Cita en el centro de salud</div><div class="ck"></div></div>
+      <div class="card" style="border-left-color:#E8A23A"><div class="tm">2. 17:30 <span class="new">NUEVO</span></div><div class="ti">Recoger a Ane en natación</div><div class="ck"></div></div>
+      <div class="card" style="border-left-color:#8E7CF0"><div class="tm">3. 20:00 – 21:00</div><div class="ti">Llamar a la abuela</div><div class="ck"></div></div>
+      <div class="pb"><span class="c">Llamar</span><span class="d">Faltan 2</span></div>
+    </div>
+    <div class="lbl">Así se ve la pantalla de la agenda</div>
+  </div>
+</div>
+
+<h3>Cosas que conviene saber</h3>
+<ul>
+  <li><strong>Despacio.</strong> Si tocas dos citas muy seguidas, la tarjeta se mueve y no se marca. Es a propósito: la idea es que la leas de verdad.</li>
+  <li><strong>¿Te equivocaste?</strong> Mantén el dedo pulsado sobre una cita verde para desmarcarla.</li>
+  <li><strong>La etiqueta NUEVO</strong> indica que esa cita no estaba en tu agenda antes. Préstale atención especial.</li>
+  <li>Si la cita tiene <strong>lugar o notas</strong>, también se muestran en la tarjeta.</li>
+</ul>
+
+<h3>Si necesitas salir sin terminar</h3>
+<ul>
+  <li>Para <strong>llamar</strong>, toca el botón <span class="btn">Llamar</span>.</li>
+  <li>Para usar otra app, toca el botón de <strong>inicio</strong> del móvil (el círculo o cuadrado de abajo).</li>
+  <li>El botón de <strong>volver atrás no cierra la agenda</strong>: es así a propósito.</li>
+  <li>Las <strong>llamadas que recibas y las alarmas</strong> del reloj aparecen por encima con normalidad.</li>
+  <li>Las citas que ya marcaste <strong>se quedan guardadas</strong>. Cuando vuelvas, solo tendrás que leer las que falten.</li>
+  <li>Si no terminas, la agenda <strong>volverá a aparecer sola</strong> al cabo de los minutos que elegiste.</li>
+</ul>
+<div class="box tip"><span class="t">Para abrirla cuando quieras</span>
+Puedes abrir la app <strong>Lee tu agenda</strong> en cualquier momento y tocar <span class="btn solid">Abrir la agenda ahora</span>.</div>
+
+<h2><span class="n">8</span>Si algo no funciona</h2>
+<table>
+  <tr><th>Problema</th><th>Qué hacer</th></tr>
+  <tr><td>La agenda no aparece a su hora</td><td>Abre la app y revisa que todos los permisos estén en verde, sobre todo «Sin restricción de batería», y que el aviso diario esté activado. En móviles Xiaomi, Samsung, realme u Oppo, la batería es la causa más habitual.</td></tr>
+  <tr><td>Solo sale una notificación, no la pantalla completa</td><td>Pasa cuando estás usando el móvil. Toca la notificación. Para que salga siempre a pantalla completa, concede «Mostrar sobre otras apps» (paso 3).</td></tr>
+  <tr><td>Falta alguna cita</td><td>Comprueba en el paso 5 que el calendario de esa cita está marcado. En la misma zona, el botón <strong>Diagnóstico</strong> muestra qué citas encuentra la app.</td></tr>
+  <tr><td>No salen mis «Tareas» de Google</td><td>Las tareas (las que tienen un círculo para marcar) no se guardan en el calendario del móvil y la app no puede leerlas. Apúntalas como evento.</td></tr>
+  <tr><td>Hoy no quiero que aparezca más</td><td>Termina de marcar las citas y toca «Hecho». Si no quieres usarla durante unos días, desactiva «Activar el aviso diario».</td></tr>
+</table>
+
+<h2><span class="n">9</span>Actualizar la app</h2>
+<p>De vez en cuando puede haber una versión nueva con mejoras. Abre la app, baja hasta el final, a <strong>«Acerca de»</strong>, y toca <span class="btn">Buscar actualizaciones</span>. Descarga el archivo <strong>LeeTuAgenda.apk</strong> e instálalo igual que la primera vez (pasos 1 y 2). Se instala encima: no pierdes la configuración.</p>
+
+<div class="foot">
+  <strong>Lee tu agenda</strong> es software libre y gratuito (licencia GPL-3.0). No tiene anuncios, no usa internet y tus citas no salen nunca del móvil.<br>
+  Código y novedades: github.com/hombrelobo2/LeeTuAgenda
+</div>
+
+</body>
+</html>

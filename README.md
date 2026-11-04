@@ -2,6 +2,10 @@
 
 App Android que cada día, a la hora que elijas, abre tu agenda **a pantalla completa** y te obliga a **tocar cada entrada** para darla por leída. Pensada para el TDAH: cuando las entradas se vuelven tan familiares que ya no las lees.
 
+## Guía para usuarios
+
+📄 **[Guía de instalación y uso (PDF)](docs/Guia-instalacion-y-uso.pdf)**: explicada paso a paso para personas con poca soltura con el móvil. Lista para imprimir o compartir.
+
 ## Qué hace
 
 - Lee los eventos de **hoy** de todos los calendarios del móvil (Google Calendar, Samsung, Outlook… lo que tengas sincronizado).
