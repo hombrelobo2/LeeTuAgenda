@@ -130,6 +130,83 @@ object CalendarRepo {
         return out
     }
 
+
+    /** Android no incluye en Instances los calendarios marcados como ocultos (aunque Google Calendar
+     *  sí los muestre). Para esos se leen los eventos directamente de la tabla Events. */
+    private fun queryHiddenDirect(ctx: Context, from: Long, to: Long, calIds: Collection<Long>): List<Raw> {
+        if (calIds.isEmpty()) return emptyList()
+        val cals = calendars(ctx).associateBy { it.id }
+        val out = ArrayList<Raw>()
+        val proj = arrayOf(
+            CalendarContract.Events._ID,
+            CalendarContract.Events.DTSTART,
+            CalendarContract.Events.DTEND,
+            CalendarContract.Events.ALL_DAY,
+            CalendarContract.Events.TITLE,
+            CalendarContract.Events.EVENT_LOCATION,
+            CalendarContract.Events.DESCRIPTION,
+            CalendarContract.Events.DISPLAY_COLOR,
+            CalendarContract.Events.SELF_ATTENDEE_STATUS,
+            CalendarContract.Events.CALENDAR_ID,
+            CalendarContract.Events.RRULE,
+            CalendarContract.Events.DURATION,
+        )
+        val sel = "${CalendarContract.Events.CALENDAR_ID} IN (${calIds.joinToString(",")}) AND " +
+            "${CalendarContract.Events.DELETED} = 0 AND " +
+            "(${CalendarContract.Events.STATUS} IS NULL OR ${CalendarContract.Events.STATUS} != ${CalendarContract.Events.STATUS_CANCELED})"
+        ctx.contentResolver.query(CalendarContract.Events.CONTENT_URI, proj, sel, null, null)?.use { c ->
+            while (c.moveToNext()) {
+                val begin = c.getLong(1)
+                val rrule = c.getString(10)
+                val end = when {
+                    !c.isNull(2) -> c.getLong(2)
+                    else -> begin + parseDuration(c.getString(11))
+                }
+                val allDay = c.getInt(3) == 1
+                val calId = c.getLong(9)
+                if (rrule.isNullOrEmpty()) {
+                    if (begin < to && end > from) out.add(rawOf(c, begin, end, allDay, calId, cals))
+                } else {
+                    // Evento repetido: se expande con las reglas más habituales
+                    RecurrenceLite.occurrences(rrule, begin, end - begin, allDay, from, to).forEach { (b, e) ->
+                        out.add(rawOf(c, b, e, allDay, calId, cals))
+                    }
+                }
+            }
+        }
+        return out
+    }
+
+    private fun rawOf(
+        c: android.database.Cursor, b: Long, e: Long, allDay: Boolean, calId: Long, cals: Map<Long, CalendarInfo>
+    ) = Raw(
+        eventId = c.getLong(0), begin = b, end = e, allDay = allDay,
+        title = c.getString(4)?.trim().takeUnless { it.isNullOrEmpty() } ?: "(sin título)",
+        location = c.getString(5)?.trim() ?: "",
+        description = c.getString(6),
+        calendarName = cals[calId]?.name ?: "",
+        color = if (c.isNull(7)) (cals[calId]?.color ?: 0xFF3949AB.toInt()) else c.getInt(7),
+        status = if (c.isNull(8)) 0 else c.getInt(8),
+        calendarId = calId,
+    )
+
+    /** Duraciones RFC 5545 tipo "P1D", "PT3600S", "PT1H30M". */
+    private fun parseDuration(d: String?): Long {
+        if (d.isNullOrEmpty()) return 0
+        val m = Regex("P(?:(\\d+)W)?(?:(\\d+)D)?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)S)?)?").find(d) ?: return 0
+        fun g(i: Int) = m.groupValues[i].toLongOrNull() ?: 0L
+        return ((g(1) * 7 + g(2)) * 86400 + g(3) * 3600 + g(4) * 60 + g(5)) * 1000
+    }
+
+    /** Todas las apariciones en el rango: Instances (calendarios visibles) + lectura directa (ocultos). */
+    private fun allRaw(ctx: Context, from: Long, to: Long, included: Set<Long>): List<Raw> {
+        val hidden = calendars(ctx).filter { !it.visible && it.id in included }.map { it.id }
+        val viaInstances = queryRaw(ctx, from, to)
+        val keys = viaInstances.map { "${it.eventId}_${it.begin}" }.toHashSet()
+        val direct = queryHiddenDirect(ctx, from, to, hidden).filter { "${it.eventId}_${it.begin}" !in keys }
+        return (viaInstances + direct).sortedWith(compareBy({ !it.allDay }, { it.begin }))
+    }
+
     private class Day(val start: Long, val end: Long, val utcStart: Long, val utcEnd: Long)
 
     private fun today(): Day {
@@ -162,7 +239,7 @@ object CalendarRepo {
         if (!hasPermission(ctx)) return emptyList()
         val d = today()
         val included = includedIds(ctx)
-        return queryRaw(ctx, d.start - 86_400_000L, d.end + 86_400_000L)
+        return allRaw(ctx, d.start - 86_400_000L, d.end + 86_400_000L, included)
             .filter { reject(it, d, included) == null }
             .map {
                 AgendaItem(
@@ -194,7 +271,7 @@ object CalendarRepo {
         }
         sb.append("\nEVENTOS (ayer–mañana)\n")
         val cals = calendars(ctx).associateBy { it.id }
-        queryRaw(ctx, d.start - 86_400_000L, d.end + 86_400_000L).forEach { r ->
+        allRaw(ctx, d.start - 86_400_000L, d.end + 86_400_000L, included).forEach { r ->
             val why = reject(r, d, included)
             sb.append(if (why == null) "✓ " else "✗ ")
             sb.append(r.title)
