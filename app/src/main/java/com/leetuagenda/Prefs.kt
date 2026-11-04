@@ -38,6 +38,15 @@ class Prefs(context: Context) {
 
     fun todayKey(): String = LocalDate.now().toString()
 
+    /** Calendarios elegidos a mano. null = aún no se ha elegido (se usan todos los visibles). */
+    fun chosenCalendars(): Set<Long>? =
+        if (!sp.contains("calendars")) null
+        else (sp.getStringSet("calendars", emptySet()) ?: emptySet()).mapNotNull { it.toLongOrNull() }.toSet()
+
+    fun setChosenCalendars(ids: Set<Long>) {
+        sp.edit().putStringSet("calendars", ids.map { it.toString() }.toHashSet()).apply()
+    }
+
     fun isDoneToday(): Boolean = sp.getString("doneDate", null) == todayKey()
 
     fun markDoneToday() {

@@ -220,8 +220,50 @@ class MainActivity : Activity() {
         }
         addCard(sched)
 
+        // --- Calendarios ---
+        content.addView(sectionTitle("3 · Calendarios"))
+        val calCard = card()
+        val cals = CalendarRepo.calendars(this)
+        if (cals.isEmpty()) {
+            calCard.addView(TextView(this).apply {
+                text = "Concede el permiso del calendario para ver la lista."
+                textSize = 14f; setTextColor(textSoft)
+            })
+        } else {
+            val included = CalendarRepo.includedIds(this).toMutableSet()
+            cals.forEach { cal ->
+                calCard.addView(android.widget.CheckBox(this).apply {
+                    text = cal.name + (if (cal.account.isNotEmpty() && cal.account != cal.name) "\n" + cal.account else "") +
+                        (if (!cal.visible) "  (oculto en el calendario)" else "")
+                    textSize = 15f
+                    setTextColor(textMain)
+                    buttonTintList = android.content.res.ColorStateList.valueOf(cal.color or 0xFF000000.toInt())
+                    isChecked = cal.id in included
+                    setPadding(dp(4), dp(6), 0, dp(6))
+                    setOnCheckedChangeListener { _, c ->
+                        if (c) included.add(cal.id) else included.remove(cal.id)
+                        prefs.setChosenCalendars(included)
+                    }
+                })
+            }
+        }
+        calCard.addView(button("Diagnóstico: ¿qué eventos ve la app?") {
+            val tv = TextView(this).apply {
+                text = CalendarRepo.diagnose(this@MainActivity)
+                textSize = 13f
+                setTextIsSelectable(true)
+                setPadding(dp(20), dp(12), dp(20), dp(12))
+            }
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Diagnóstico")
+                .setView(ScrollView(this).apply { addView(tv) })
+                .setPositiveButton("Cerrar", null)
+                .show()
+        }, fullWidth().apply { topMargin = dp(10) })
+        addCard(calCard)
+
         // --- Probar ---
-        content.addView(sectionTitle("3 · Probar"))
+        content.addView(sectionTitle("4 · Probar"))
         val test = card()
         test.addView(button("Abrir la agenda ahora", primary = true) {
             startActivity(Notifier.agendaIntent(this))
