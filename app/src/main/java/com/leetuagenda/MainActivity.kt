@@ -288,6 +288,39 @@ class MainActivity : Activity() {
             setTextColor(textSoft)
             setPadding(dp(4), dp(4), dp(4), 0)
         })
+
+        // --- Acerca de ---
+        content.addView(sectionTitle("Acerca de"))
+        val about = card()
+        val version = try { packageManager.getPackageInfo(packageName, 0).versionName } catch (e: Exception) { "?" }
+        about.addView(TextView(this).apply {
+            text = "Lee tu agenda"
+            textSize = 17f
+            setTextColor(textMain)
+            typeface = Typeface.DEFAULT_BOLD
+        })
+        about.addView(TextView(this).apply {
+            text = "Versión $version (${BuildConfig.COMMIT})"
+            textSize = 14f
+            setTextColor(textSoft)
+            setPadding(0, dp(2), 0, dp(6))
+        })
+        about.addView(TextView(this).apply {
+            text = "Software libre: sin anuncios, sin internet y sin recoger datos. Tu agenda no sale del móvil."
+            textSize = 14f
+            setTextColor(textSoft)
+        })
+        about.addView(button("Ver el código en GitHub") {
+            safeStart(Intent(Intent.ACTION_VIEW, Uri.parse(REPO_URL)))
+        }, fullWidth().apply { topMargin = dp(12) })
+        about.addView(button("Buscar actualizaciones") {
+            safeStart(Intent(Intent.ACTION_VIEW, Uri.parse("$REPO_URL/releases/latest")))
+        }, fullWidth().apply { topMargin = dp(10) })
+        addCard(about)
+    }
+
+    companion object {
+        const val REPO_URL = "https://github.com/hombrelobo2/LeeTuAgenda"
     }
 
     private fun fullWidth() =
