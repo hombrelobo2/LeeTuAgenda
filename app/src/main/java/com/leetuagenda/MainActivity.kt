@@ -234,7 +234,7 @@ class MainActivity : Activity() {
             cals.forEach { cal ->
                 calCard.addView(android.widget.CheckBox(this).apply {
                     text = cal.name + (if (cal.account.isNotEmpty() && cal.account != cal.name) "\n" + cal.account else "") +
-                        (if (!cal.synced || CalendarRepo.accountSyncOn(cal) == false)
+                        (if (!cal.synced)
                             "\n⚠ No sincronizado en Android: sus eventos no llegan al móvil" else "")
                     textSize = 15f
                     setTextColor(textMain)

@@ -293,7 +293,6 @@ object CalendarRepo {
             if (!it.visible) sb.append("  (oculto)")
             if (!it.synced) sb.append("  (sin sincronizar)")
             sb.append("  · ${counts[it.id] ?: 0} eventos en el móvil")
-            if (accountSyncOn(it) == false) sb.append("  ⚠ SINCRONIZACIÓN DE LA CUENTA DESACTIVADA EN ANDROID")
             sb.append("\n")
         }
         sb.append("\nEVENTOS (ayer–mañana)\n")
