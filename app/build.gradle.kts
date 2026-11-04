@@ -15,6 +15,16 @@ android {
         versionName = "1.0"
     }
 
+    // Firma fija: así cada APK nuevo se instala encima del anterior sin desinstalar.
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("leetuagenda.keystore")
+            storePassword = "leetuagenda"
+            keyAlias = "leetuagenda"
+            keyPassword = "leetuagenda"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false

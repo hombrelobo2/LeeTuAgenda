@@ -69,11 +69,16 @@ object CalendarRepo {
         return out.sortedWith(compareBy({ it.account }, { it.name }))
     }
 
-    /** Calendarios que se incluyen: los elegidos por el usuario, o por defecto todos los visibles. */
+    /** Calendarios que se incluyen: los elegidos por el usuario, o por defecto todos menos festivos.
+     *  (La marca "visible" del sistema no coincide con lo que muestra Google Calendar, así que no se usa.) */
     fun includedIds(ctx: Context): Set<Long> {
-        val p = Prefs(ctx)
-        val chosen = p.chosenCalendars()
-        return chosen ?: calendars(ctx).filter { it.visible }.map { it.id }.toSet()
+        val chosen = Prefs(ctx).chosenCalendars()
+        return chosen ?: calendars(ctx).filter { !isHolidays(it) }.map { it.id }.toSet()
+    }
+
+    private fun isHolidays(c: CalendarInfo): Boolean {
+        val n = c.name.lowercase()
+        return "festivo" in n || "holiday" in n || "#holiday@" in c.account
     }
 
     private class Raw(

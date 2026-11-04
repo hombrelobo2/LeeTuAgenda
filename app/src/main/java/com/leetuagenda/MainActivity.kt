@@ -234,7 +234,7 @@ class MainActivity : Activity() {
             cals.forEach { cal ->
                 calCard.addView(android.widget.CheckBox(this).apply {
                     text = cal.name + (if (cal.account.isNotEmpty() && cal.account != cal.name) "\n" + cal.account else "") +
-                        (if (!cal.visible) "  (oculto en el calendario)" else "")
+                        (if (!cal.synced) "  (no sincronizado: sus eventos no están en el móvil)" else "")
                     textSize = 15f
                     setTextColor(textMain)
                     buttonTintList = android.content.res.ColorStateList.valueOf(cal.color or 0xFF000000.toInt())
