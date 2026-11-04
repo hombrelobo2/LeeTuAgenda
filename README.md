@@ -38,3 +38,9 @@ App Android que cada día, a la hora que elijas, abre tu agenda **a pantalla com
 
 - `AgendaActivity.MIN_MS_BETWEEN_TAPS`: tiempo mínimo entre toques (1200 ms).
 - Requiere Android 8.0 o superior.
+
+## Firma del APK
+
+La clave de firma **no está en el repositorio**. GitHub Actions la lee de los *secrets* del repositorio
+(`SIGNING_KEYSTORE_BASE64`, `SIGNING_STORE_PASSWORD`, `SIGNING_KEY_ALIAS`, `SIGNING_KEY_PASSWORD`).
+Compilado en local o en F-Droid, `assembleRelease` genera un APK sin firmar (F-Droid lo firma con su propia clave).

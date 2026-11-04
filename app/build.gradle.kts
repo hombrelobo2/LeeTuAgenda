@@ -19,19 +19,25 @@ android {
         buildConfig = true
     }
 
-    // Firma fija: así cada APK nuevo se instala encima del anterior sin desinstalar.
+    // Firma de publicación: la clave NO está en el repositorio.
+    // Se lee de variables de entorno (en GitHub vienen de los "secrets").
+    // Sin ellas (compilación local o F-Droid) el APK release sale sin firmar.
+    val keystorePath = System.getenv("SIGNING_KEYSTORE_FILE")
     signingConfigs {
-        getByName("debug") {
-            storeFile = file("leetuagenda.keystore")
-            storePassword = "leetuagenda"
-            keyAlias = "leetuagenda"
-            keyPassword = "leetuagenda"
+        if (keystorePath != null) {
+            create("release") {
+                storeFile = file(keystorePath)
+                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            }
         }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+            if (keystorePath != null) signingConfig = signingConfigs.getByName("release")
         }
     }
 
