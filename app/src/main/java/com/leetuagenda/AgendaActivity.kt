@@ -75,7 +75,6 @@ class AgendaActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        hideStatusBar()
         reload()
     }
 
@@ -91,16 +90,6 @@ class AgendaActivity : Activity() {
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
             )
-        }
-    }
-
-    /** Oculta solo la barra de estado. La de navegación se queda para poder salir (llamar, etc.). */
-    private fun hideStatusBar() {
-        if (Build.VERSION.SDK_INT >= 30) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            @Suppress("DEPRECATION")
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         }
     }
 

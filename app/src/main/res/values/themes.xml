@@ -11,6 +11,8 @@
     <style name="AgendaTheme" parent="android:Theme.Material.NoActionBar">
         <item name="android:colorAccent">#FFC857</item>
         <item name="android:windowBackground">#14161F</item>
-        <item name="android:windowFullscreen">true</item>
+        <!-- Barra de estado visible: así no se ocultan ni silencian las notificaciones de otras apps -->
+        <item name="android:statusBarColor">#14161F</item>
+        <item name="android:navigationBarColor">#14161F</item>
     </style>
 </resources>
