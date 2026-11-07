@@ -3,6 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+// Versión de la app: cambiar SOLO aquí. El APK se publica como LeeTuAgenda-v<versión>.apk
+val appVersion = "1.2.0"
+
 android {
     namespace = "com.leetuagenda"
     compileSdk = 35
@@ -11,8 +14,9 @@ android {
         applicationId = "com.leetuagenda"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.2"
+        versionName = appVersion
+        // 1.2.0 -> 10200 (siempre crece al subir la versión)
+        versionCode = appVersion.split(".").map { it.toInt() }.let { (a, b, c) -> a * 10000 + b * 100 + c }
         buildConfigField("String", "COMMIT", "\"" + (System.getenv("GITHUB_SHA")?.take(7) ?: "local") + "\"")
     }
     buildFeatures {

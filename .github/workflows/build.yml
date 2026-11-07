@@ -1,4 +1,7 @@
 # Compila el APK firmado en cada cambio y lo publica en "Releases".
+# - Cada versión tiene su propia publicación: vX.Y.Z con LeeTuAgenda-vX.Y.Z.apk
+# - La publicación "ultima-version" es un enlace fijo (lo usa el QR de la guía) con LeeTuAgenda.apk
+# La versión se define en app/build.gradle.kts (val appVersion).
 # La clave de firma está en Settings → Secrets and variables → Actions (nunca en el código):
 #   SIGNING_KEYSTORE_BASE64, SIGNING_STORE_PASSWORD, SIGNING_KEY_ALIAS, SIGNING_KEY_PASSWORD
 name: Compilar APK
@@ -11,6 +14,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: build
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,6 +27,13 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+
+      - name: Leer la versión
+        run: |
+          VERSION=$(grep -oP 'val appVersion = "\K[^"]+' app/build.gradle.kts)
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "APK=LeeTuAgenda-v$VERSION.apk" >> "$GITHUB_ENV"
+          echo "Versión: $VERSION"
 
       - name: Preparar la clave de firma
         env:
@@ -40,20 +54,35 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon
-          cp app/build/outputs/apk/release/app-release.apk LeeTuAgenda.apk
+          cp app/build/outputs/apk/release/app-release.apk "$APK"
+          cp "$APK" LeeTuAgenda.apk
           rm -f "$RUNNER_TEMP/release.jks"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: LeeTuAgenda-apk
-          path: LeeTuAgenda.apk
+          name: LeeTuAgenda-v${{ env.VERSION }}
+          path: ${{ env.APK }}
 
-      - name: Publicar en Releases
+      - name: Publicar la versión
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="v$VERSION"
+          NOTES="Lee tu agenda $VERSION (commit ${GITHUB_SHA::7}). Descarga $APK e instálalo encima de la versión anterior."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            # Misma versión recompilada: se reemplaza el APK
+            gh release upload "$TAG" "$APK" --clobber
+            gh release edit "$TAG" --notes "$NOTES"
+          else
+            gh release create "$TAG" "$APK" --title "Lee tu agenda $VERSION" --notes "$NOTES" --latest
+          fi
+
+      - name: Actualizar el enlace fijo (QR de la guía)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release delete ultima-version --yes --cleanup-tag || true
           gh release create ultima-version LeeTuAgenda.apk \
-            --title "Lee tu agenda (última versión)" \
-            --notes "APK compilado automáticamente desde el commit ${GITHUB_SHA::7}. Descárgalo desde el móvil e instálalo." \
-            --latest
+            --title "Enlace fijo a la última versión ($VERSION)" \
+            --notes "Copia de la versión $VERSION con nombre fijo, para el código QR de la guía. Para ver el historial de versiones, mira las publicaciones vX.Y.Z." \
+            --latest=false
