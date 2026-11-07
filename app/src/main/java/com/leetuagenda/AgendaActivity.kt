@@ -68,7 +68,6 @@ class AgendaActivity : Activity() {
         super.onCreate(savedInstanceState)
         prefs = Prefs(this)
         showOverLockScreen()
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         buildUi()
         blockBackButton()
     }
