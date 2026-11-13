@@ -310,9 +310,12 @@ class MainActivity : Activity() {
             textSize = 14f
             setTextColor(textSoft)
         })
+        about.addView(button("📖 Manual de uso (PDF)", primary = true) {
+            safeStart(Intent(Intent.ACTION_VIEW, Uri.parse(MANUAL_URL)))
+        }, fullWidth().apply { topMargin = dp(12) })
         about.addView(button("Ver el código en GitHub") {
             safeStart(Intent(Intent.ACTION_VIEW, Uri.parse(REPO_URL)))
-        }, fullWidth().apply { topMargin = dp(12) })
+        }, fullWidth().apply { topMargin = dp(10) })
         about.addView(button("Buscar actualizaciones") {
             safeStart(Intent(Intent.ACTION_VIEW, Uri.parse("$REPO_URL/releases/latest")))
         }, fullWidth().apply { topMargin = dp(10) })
@@ -321,6 +324,8 @@ class MainActivity : Activity() {
 
     companion object {
         const val REPO_URL = "https://github.com/hombrelobo2/LeeTuAgenda"
+        /** Manual de uso en PDF: siempre la última versión publicada en el repositorio. */
+        const val MANUAL_URL = "$REPO_URL/raw/main/docs/Guia-instalacion-y-uso.pdf"
     }
 
     private fun fullWidth() =

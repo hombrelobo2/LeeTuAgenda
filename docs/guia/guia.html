@@ -63,14 +63,18 @@
   .lbl { font-size: 8.5pt; color: var(--soft); text-align: center; margin-top: 4pt; }
   .page-break { break-before: page; }
   .foot { margin-top: 18pt; padding-top: 10pt; border-top: 1px solid var(--line); font-size: 9.5pt; color: var(--soft); }
+  .toc { background: var(--tint); border-radius: 8pt; padding: 10pt 14pt; margin: 12pt 0; break-inside: avoid; }
+  .toc .t { font-weight: 700; display:block; margin-bottom: 4pt; color: var(--indigo); }
+  .toc ol { columns: 2; column-gap: 20pt; margin: 0 0 6pt; padding-left: 18pt; }
+  .toc li { margin-bottom: 2pt; }
+  .small { font-size: 9.5pt; color: var(--soft); margin: 0; }
+  ul.tips li { margin-bottom: 6pt; }
+  table.gloss td:first-child { width: 24%; }
 </style>
 </head>
 <body>
 
-<h1>Lee tu agenda</h1>
-<p class="lead">Guía de instalación y uso, paso a paso.<br>Una app para que la agenda del día no se te pase sin leerla.</p>
-
-<h2>¿Para qué sirve?</h2>
+<h2 style="margin-top:0">¿Para qué sirve?</h2>
 <p>A muchas personas con TDAH les pasa: miran la agenda tantas veces que el ojo «resbala» por encima y ya no la leen de verdad. Las citas están apuntadas, pero se olvidan igual.</p>
 <p><strong>Lee tu agenda</strong> te ayuda así:</p>
 <ul>
@@ -92,7 +96,18 @@
   </ul>
 </div>
 
-<h2><span class="n">1</span>Descargar la app</h2>
+
+<div class="toc">
+  <span class="t">En esta guía</span>
+  <ol>
+    <li>Descargar la app</li><li>Instalar la app</li><li>Dar los permisos</li><li>Elegir la hora del aviso</li>
+    <li>Elegir qué calendarios leer</li><li>Probar que funciona</li><li>El uso de cada día</li><li>Consejos para sacarle partido</li>
+    <li>Si algo no funciona</li><li>Actualizar la app</li><li>Otras cosas útiles</li>
+  </ol>
+  <p class="small">Al final hay una lista con las <strong>palabras raras</strong> que aparecen (APK, permiso, notificación…) explicadas de forma sencilla.</p>
+</div>
+
+<h2 class="page-break"><span class="n">1</span>Descargar la app</h2>
 <div class="cover">
   <div class="qr">__QR__</div>
   <div>
@@ -208,21 +223,62 @@ Sí. Es software libre: el código está publicado para que cualquiera lo revise
   <li>Las citas que ya marcaste <strong>se quedan guardadas</strong>. Cuando vuelvas, solo tendrás que leer las que falten.</li>
   <li>Si no terminas, la agenda <strong>volverá a aparecer sola</strong> al cabo de los minutos que elegiste.</li>
 </ul>
+<div class="box info"><span class="t">Tus alarmas y la app de la medicación siguen funcionando</span>
+Mientras la agenda espera a que la leas, la pantalla se apaga sola como siempre y las notificaciones de otras apps se siguen viendo arriba. Las alarmas del reloj y los avisos de la medicación aparecen <strong>por encima</strong> de la agenda. Aun así, <strong>no uses esta app como recordatorio de la medicación</strong>: para eso, mantén tu alarma o tu app de siempre.</div>
 <div class="box tip"><span class="t">Para abrirla cuando quieras</span>
 Puedes abrir la app <strong>Lee tu agenda</strong> en cualquier momento y tocar <span class="btn solid">Abrir la agenda ahora</span>.</div>
 
-<h2><span class="n">8</span>Si algo no funciona</h2>
+<h2><span class="n">8</span>Consejos para sacarle partido</h2>
+<ul class="tips">
+  <li><strong>Engánchala a una rutina.</strong> Pon el aviso justo después de algo que haces siempre a la misma hora: desayunar, tomar la medicación de la mañana o llegar al trabajo. Así te pilla con un momento libre.</li>
+  <li><strong>Apunta todo en el calendario, con detalles.</strong> La app solo enseña lo que esté en el calendario. Escribe el <strong>lugar</strong> y, en la descripción, lo que tengas que llevar o preparar («llevar la tarjeta sanitaria», «comprar regalo antes»). Todo eso aparecerá en la tarjeta.</li>
+  <li><strong>Títulos claros y cortos.</strong> «Dentista – revisión» se lee mejor que «cita».</li>
+  <li><strong>Lee en voz baja.</strong> Leer cada cita en voz baja antes de tocarla ayuda a que se quede en la memoria.</li>
+  <li><strong>Mira bien las NUEVO.</strong> Son las que todavía no conoces y las más fáciles de olvidar.</li>
+  <li><strong>Que no se convierta en otra rutina vacía.</strong> Si notas que tocas sin leer, cambia la hora del aviso o pide a alguien que te pregunte de vez en cuando «¿qué tienes hoy?».</li>
+  <li><strong>Familias:</strong> si ayudas a otra persona, podéis compartir un calendario de Google. Lo que apuntes en él le aparecerá en su agenda (recuerda marcar ese calendario en el paso 5).</li>
+</ul>
+
+<h2><span class="n">9</span>Si algo no funciona</h2>
 <table>
   <tr><th>Problema</th><th>Qué hacer</th></tr>
   <tr><td>La agenda no aparece a su hora</td><td>Abre la app y revisa que todos los permisos estén en verde, sobre todo «Sin restricción de batería», y que el aviso diario esté activado. En móviles Xiaomi, Samsung, realme u Oppo, la batería es la causa más habitual.</td></tr>
   <tr><td>Solo sale una notificación, no la pantalla completa</td><td>Pasa cuando estás usando el móvil. Toca la notificación. Para que salga siempre a pantalla completa, concede «Mostrar sobre otras apps» (paso 3).</td></tr>
   <tr><td>Falta alguna cita</td><td>Comprueba en el paso 5 que el calendario de esa cita está marcado. En la misma zona, el botón <strong>Diagnóstico</strong> muestra qué citas encuentra la app.</td></tr>
   <tr><td>No salen mis «Tareas» de Google</td><td>Las tareas (las que tienen un círculo para marcar) no se guardan en el calendario del móvil y la app no puede leerlas. Apúntalas como evento.</td></tr>
+  <tr><td>Aparecen citas que no son mías</td><td>Seguramente tienes en el móvil un calendario compartido o de otra persona. Desmárcalo en el paso 5.</td></tr>
+  <tr><td>La agenda no se cierra con el botón de atrás</td><td>Es normal: está hecho así para que no la cierres sin leer. Usa el botón de inicio o el de «Llamar».</td></tr>
   <tr><td>Hoy no quiero que aparezca más</td><td>Termina de marcar las citas y toca «Hecho». Si no quieres usarla durante unos días, desactiva «Activar el aviso diario».</td></tr>
 </table>
 
-<h2><span class="n">9</span>Actualizar la app</h2>
-<p>De vez en cuando puede haber una versión nueva con mejoras. Abre la app, baja hasta el final, a <strong>«Acerca de»</strong>, y toca <span class="btn">Buscar actualizaciones</span>. Descarga el archivo que empieza por <strong>LeeTuAgenda-v</strong> (el número que sigue es la versión, por ejemplo <strong>LeeTuAgenda-v1.2.0.apk</strong>) e instálalo igual que la primera vez (pasos 1 y 2). Se instala encima: no pierdes la configuración.</p>
+<h2><span class="n">10</span>Actualizar la app</h2>
+<p>De vez en cuando puede haber una versión nueva con mejoras. Abre la app, baja hasta el final, a <strong>«Acerca de»</strong>, y toca <span class="btn">Buscar actualizaciones</span>. Descarga el archivo que empieza por <strong>LeeTuAgenda-v</strong> (el número que sigue es la versión, por ejemplo <strong>LeeTuAgenda-v1.3.0.apk</strong>) e instálalo igual que la primera vez (pasos 1 y 2). Se instala encima: no pierdes la configuración.</p>
+
+<h2><span class="n">11</span>Otras cosas útiles</h2>
+<h3>Volver a ver este manual</h3>
+<p>Abre la app, baja hasta <strong>«Acerca de»</strong> y toca <span class="btn">Manual de uso (PDF)</span>. Se descargará siempre la versión más reciente.</p>
+<h3>Saber qué versión tienes</h3>
+<p>En <strong>«Acerca de»</strong> verás, por ejemplo, «Versión 1.3.0». Si alguien te ayuda con un problema, díselo.</p>
+<h3>Ver qué citas encuentra la app</h3>
+<p>En la parte <strong>«3 · Calendarios»</strong>, el botón <span class="btn">Diagnóstico</span> muestra todos tus calendarios y las citas de ayer, hoy y mañana. Las que tienen ✓ saldrán en tu agenda; las que tienen ✗ indican por qué no (por ejemplo, «calendario no elegido»).</p>
+<h3>Dejar de usarla</h3>
+<p>Para una pausa, desactiva <strong>«Activar el aviso diario»</strong>. Para quitarla del todo, mantén el dedo sobre su icono y elige <strong>Desinstalar</strong>. Tus citas no se borran: siguen en tu calendario.</p>
+<h3>Privacidad</h3>
+<p>La app solo <strong>lee</strong> tu calendario: no puede cambiar ni borrar citas. No usa internet y no envía nada a nadie. Todo se queda en tu móvil.</p>
+
+<h2>Palabras que aparecen en esta guía</h2>
+<table class="gloss">
+  <tr><td>App</td><td>Aplicación: un programa del móvil, como WhatsApp o el calendario.</td></tr>
+  <tr><td>APK</td><td>El archivo con el que se instala una app en Android cuando no viene de Play Store.</td></tr>
+  <tr><td>Play Store</td><td>La tienda de apps de Google. Esta app no está ahí; se descarga desde internet.</td></tr>
+  <tr><td>Permiso</td><td>Una autorización que le das a una app para que pueda hacer algo, como leer tu calendario.</td></tr>
+  <tr><td>Notificación</td><td>Un aviso que aparece en la parte de arriba de la pantalla, a veces con sonido.</td></tr>
+  <tr><td>Pantalla completa</td><td>Cuando una app ocupa toda la pantalla, aunque el móvil estuviera bloqueado.</td></tr>
+  <tr><td>Calendario</td><td>Donde apuntas tus citas (por ejemplo, Google Calendar). Puedes tener varios: personal, trabajo, familia…</td></tr>
+  <tr><td>Evento o cita</td><td>Cada cosa apuntada en el calendario, con su día y su hora.</td></tr>
+  <tr><td>Código QR</td><td>El cuadrado de puntos blancos y negros. Al enfocarlo con la cámara, abre un enlace.</td></tr>
+  <tr><td>Versión</td><td>El número que indica qué edición de la app tienes. Cuanto más alto, más nueva.</td></tr>
+</table>
 
 <div class="foot">
   <strong>Lee tu agenda</strong> es software libre y gratuito (licencia GPL-3.0). No tiene anuncios, no usa internet y tus citas no salen nunca del móvil.<br>

@@ -4,7 +4,7 @@ plugins {
 }
 
 // Versión de la app: cambiar SOLO aquí. El APK se publica como LeeTuAgenda-v<versión>.apk
-val appVersion = "1.2.0"
+val appVersion = "1.3.0"
 
 android {
     namespace = "com.leetuagenda"

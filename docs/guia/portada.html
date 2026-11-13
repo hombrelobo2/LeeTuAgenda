@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Lee tu agenda · Portada</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; width: 210mm; height: 297mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html { background: #14161F; overflow: hidden; }
+  .bg { position: absolute; inset: 0; overflow: hidden; }
+  body { width: 210mm; height: 297mm; overflow: hidden; font-family: "Inter", "DejaVu Sans", sans-serif; color: #F3F4F8;
+    background: radial-gradient(120% 70% at 85% 0%, #3949AB 0%, #262C6B 45%, #14161F 100%) no-repeat; background-size: 210mm 297mm; position: relative; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(2px); }
+  .b1 { width: 120mm; height: 120mm; right: -40mm; top: 70mm; background: radial-gradient(circle, rgba(255,200,87,.20), rgba(255,200,87,0) 70%); }
+  .b2 { width: 90mm; height: 90mm; left: -30mm; bottom: 40mm; background: radial-gradient(circle, rgba(76,195,138,.18), rgba(76,195,138,0) 70%); }
+  .wrap { position: relative; padding: 26mm 22mm 0; height: 100%; }
+  .icon { width: 30mm; height: 30mm; border-radius: 8mm; background: #3949AB; box-shadow: 0 6mm 14mm rgba(0,0,0,.35), inset 0 0 0 0.6mm rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; }
+  .kicker { margin-top: 12mm; color: #FFC857; font-weight: 700; letter-spacing: .14em; font-size: 10pt; text-transform: uppercase; }
+  h1 { font-size: 52pt; line-height: 1; margin: 4mm 0 0; letter-spacing: -.02em; font-weight: 800; }
+  .sub { font-size: 20pt; font-weight: 500; margin-top: 5mm; color: #DDE0F0; }
+  .phrase { font-size: 13pt; line-height: 1.45; color: #B9BDD3; margin-top: 7mm; max-width: 120mm; }
+  .row { display: flex; gap: 8mm; align-items: center; margin-top: 16mm; }
+  .cards { flex: 1; transform: rotate(-3deg); }
+  .card { background: #1F2230; border: 0.3mm solid #2C3042; border-left: 2mm solid #5B8DEF; border-radius: 4mm; padding: 3.2mm 4mm; margin-bottom: 3mm; position: relative; box-shadow: 0 3mm 8mm rgba(0,0,0,.35); }
+  .card.done { background: #17311F; border-color: #4CC38A; border-left-color: #4CC38A; }
+  .tm { color: #FFC857; font-weight: 700; font-size: 9pt; }
+  .card.done .tm { color: #4CC38A; }
+  .ti { font-size: 12pt; font-weight: 600; margin-top: 1mm; padding-right: 9mm; }
+  .ck { position: absolute; right: 4mm; top: 50%; margin-top: -3.5mm; width: 7mm; height: 7mm; border-radius: 50%; border: 0.5mm solid #A6AABB; }
+  .card.done .ck { background: #4CC38A; border-color: #4CC38A; }
+  .card.done .ck::after { content: "✓"; color: #14161F; font-weight: 800; font-size: 11pt; position: absolute; left: 1.3mm; top: -0.6mm; }
+  .new { background: #FFC857; color: #14161F; font-size: 7pt; font-weight: 800; border-radius: 1.5mm; padding: 0 1.5mm; margin-left: 2mm; vertical-align: 1pt; }
+  .features { width: 74mm; flex: none; list-style: none; padding: 0; margin: 0; }
+  .features li { display: flex; gap: 3.5mm; align-items: flex-start; margin-bottom: 5.5mm; font-size: 11.5pt; line-height: 1.35; color: #E6E8F2; }
+  .features .dot { flex: none; width: 7mm; height: 7mm; border-radius: 50%; background: rgba(255,255,255,.08); border: 0.4mm solid rgba(255,200,87,.6); color: #FFC857; font-weight: 800; font-size: 9pt; display: flex; align-items: center; justify-content: center; }
+  .bottom { position: absolute; left: 22mm; right: 22mm; bottom: 20mm; display: flex; gap: 7mm; align-items: center; background: #FFFFFF; color: #1B1D29; border-radius: 6mm; padding: 6mm; box-shadow: 0 6mm 16mm rgba(0,0,0,.35); }
+  .qr { width: 36mm; height: 36mm; flex: none; }
+  .qr svg { width: 100%; height: 100%; }
+  .bottom .t { font-weight: 800; font-size: 14pt; color: #3949AB; }
+  .bottom p { margin: 1.5mm 0 0; font-size: 10.5pt; line-height: 1.4; color: #454A5E; }
+  .url { font-family: "DejaVu Sans Mono", monospace; font-size: 7.5pt; color: #6A6F84; word-break: break-all; margin-top: 2mm !important; }
+  .meta { margin-top: 3mm !important; font-size: 9.5pt !important; color: #1B1D29 !important; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="bg"><div class="blob b1"></div><div class="blob b2"></div></div>
+<div class="wrap">
+  <div class="icon">
+    <svg width="22mm" height="22mm" viewBox="26 22 56 64">
+      <path fill="#FFFFFF" d="M30,26h48a4,4 0,0 1,4 4v52a4,4 0,0 1,-4 4h-48a4,4 0,0 1,-4 -4v-52a4,4 0,0 1,4 -4z"/>
+      <path fill="#FFC857" d="M30,26h48a4,4 0,0 1,4 4v8h-56v-8a4,4 0,0 1,4 -4z"/>
+      <path fill="none" stroke="#3949AB" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M40,62l9,9l19,-20"/>
+    </svg>
+  </div>
+  <div class="kicker">App para Android · Pensada para el TDAH</div>
+  <h1>Lee tu agenda</h1>
+  <div class="sub">Guía de instalación y uso</div>
+  <div class="phrase">Cada día, a la hora que elijas, tu agenda aparece en la pantalla y tocas cada cita para confirmar que la has leído de verdad.</div>
+
+  <div class="row">
+  <ul class="features">
+    <li><span class="dot">1</span><span>Aparece sola, aunque el móvil esté bloqueado.</span></li>
+    <li><span class="dot">2</span><span>Una cita cada vez: despacio, que cuente.</span></li>
+    <li><span class="dot">3</span><span>Las citas nuevas destacan con la etiqueta <b style="color:#FFC857">NUEVO</b>.</span></li>
+    <li><span class="dot">4</span><span>Llamadas, alarmas y medicación siguen funcionando.</span></li>
+  </ul>
+
+  <div class="cards">
+    <div class="card done"><div class="tm">10:00 – 10:30</div><div class="ti">Cita en el centro de salud</div><div class="ck"></div></div>
+    <div class="card" style="border-left-color:#E8A23A"><div class="tm">17:30 <span class="new">NUEVO</span></div><div class="ti">Recoger a Ane en natación</div><div class="ck"></div></div>
+    <div class="card" style="border-left-color:#8E7CF0"><div class="tm">20:00 – 21:00</div><div class="ti">Llamar a la abuela</div><div class="ck"></div></div>
+  </div>
+  </div>
+
+  <div class="bottom">
+    <div class="qr">__QR__</div>
+    <div>
+      <div class="t">Descárgala gratis</div>
+      <p>Apunta con la cámara del móvil al código y toca el enlace que aparece.</p>
+      <p class="url">github.com/hombrelobo2/LeeTuAgenda/releases/download/ultima-version/LeeTuAgenda.apk</p>
+      <p class="meta">Versión __VERSION__ · __FECHA__ · Software libre (GPL-3.0)</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

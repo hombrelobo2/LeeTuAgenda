@@ -4,7 +4,8 @@ App Android que cada día, a la hora que elijas, abre tu agenda **a pantalla com
 
 ## Guía para usuarios
 
-📄 **[Guía de instalación y uso (PDF)](docs/Guia-instalacion-y-uso.pdf)**: explicada paso a paso para personas con poca soltura con el móvil. Lista para imprimir o compartir.
+📄 **[Guía de instalación y uso (PDF)](docs/Guia-instalacion-y-uso.pdf)**: explicada paso a paso para personas con poca soltura con el móvil. Lista para imprimir o compartir. También se abre desde la app: **Acerca de → 📖 Manual de uso (PDF)**.
+Se genera con `python3 docs/guia/render.py` (portada `docs/guia/portada.html` + guía `docs/guia/guia.html`).
 
 ## Qué hace
 
